@@ -3,8 +3,8 @@ import 'dart:typed_data';
 import './nfc_manager/nfc_manager.dart';
 import './nfc_manager/nfc_ndef.dart';
 import './platform_tags/felica.dart';
-import './platform_tags/iso7816.dart';
 import './platform_tags/iso15693.dart';
+import './platform_tags/iso7816.dart';
 import './platform_tags/iso_dep.dart';
 import './platform_tags/mifare.dart';
 import './platform_tags/mifare_classic.dart';
@@ -180,6 +180,7 @@ Ndef? $GetNdef(NfcTag arg) {
   final data = Map<String, dynamic>.from(arg.data['ndef']);
   return Ndef(
     tag: arg,
+    identifier: data['identifier'],
     isWritable: data.remove('isWritable'),
     maxSize: data.remove('maxSize'),
     cachedMessage: data['cachedMessage'] == null

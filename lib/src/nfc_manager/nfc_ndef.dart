@@ -15,6 +15,7 @@ class Ndef {
   /// Only instances obtained from the `Ndef.from` are valid.
   const Ndef({
     required NfcTag tag,
+    required this.identifier,
     required this.isWritable,
     required this.maxSize,
     required this.cachedMessage,
@@ -23,6 +24,9 @@ class Ndef {
 
   // _tag
   final NfcTag _tag;
+
+  /// The value from Tag#id on Android.
+  final Uint8List identifier;
 
   /// The value from Ndef#isWritable on Android, NFCNDEFTag#queryStatus on iOS.
   final bool isWritable;
