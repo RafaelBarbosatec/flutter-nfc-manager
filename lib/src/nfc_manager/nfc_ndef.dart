@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import './nfc_manager.dart';
 import '../channel.dart';
 import '../translator.dart';
-import './nfc_manager.dart';
 
 /// The class provides access to NDEF operations on the tag.
 ///
@@ -56,6 +56,11 @@ class Ndef {
       'handle': _tag.handle,
       'message': $GetNdefMessageMap(message),
     });
+  }
+
+  /// Clean tag
+  Future<void> clean() async {
+    return write(NdefMessage([NdefRecord.empty()]));
   }
 
   /// Change the NDEF status to read-only.
@@ -174,6 +179,15 @@ class NdefRecord {
       type: type,
       identifier: identifier,
       payload: payload,
+    );
+  }
+
+  factory NdefRecord.empty() {
+    return NdefRecord(
+      typeNameFormat: NdefTypeNameFormat.empty,
+      type: Uint8List.fromList([]),
+      identifier: Uint8List.fromList([]),
+      payload: Uint8List.fromList([]),
     );
   }
 

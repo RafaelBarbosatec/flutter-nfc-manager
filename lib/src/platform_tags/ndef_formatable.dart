@@ -32,11 +32,8 @@ class NdefFormatable {
   /// Format the tag as NDEF, and write the given NDEF message.
   ///
   /// This uses NdefFormatable#format API on Android.
-  Future<void> format(NdefMessage firstMessage) async {
-    return channel.invokeMethod('NdefFormatable#format', {
-      'handle': _tag.handle,
-      'firstMessage': $GetNdefMessageMap(firstMessage),
-    });
+  Future<void> format() async {
+    return channel.invokeMethod('NdefFormatable#format');
   }
 
   /// Format the tag as NDEF, write the given NDEF message, and make read-only.

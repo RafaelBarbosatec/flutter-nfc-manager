@@ -76,6 +76,23 @@ class MyAppState extends State<MyApp> {
   void _tagRead() {
     NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
       result.value = tag.data;
+
+      // var ndef = Ndef.from(tag);
+      // if (ndef != null) {
+      //   try {
+      //     ndef.clean();
+      //   } catch (e) {
+      //     inspect(e);
+      //   }
+      // }
+      // var ndef = NdefFormatable.from(tag);
+      // if (ndef != null) {
+      //   try {
+      //     ndef.format();
+      //   } catch (e) {
+      //     inspect(e);
+      //   }
+      // }
       NfcManager.instance.stopSession();
     });
   }

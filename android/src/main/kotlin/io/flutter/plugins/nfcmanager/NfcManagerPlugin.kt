@@ -300,8 +300,7 @@ class NfcManagerPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 
   private fun handleNdefFormatableFormat(call: MethodCall, result: Result) {
     tagHandler(call, result, { NdefFormatable.get(it) }) {
-      val firstMessage = getNdefMessage(call.argument<Map<String, Any?>>("firstMessage")!!)
-      it.format(firstMessage)
+      it.format(null)
       result.success(null)
     }
   }
