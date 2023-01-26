@@ -1,7 +1,9 @@
+import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:nfc_manager/nfc_manager.dart';
+import 'package:nfc_manager/platform_tags.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -85,14 +87,14 @@ class MyAppState extends State<MyApp> {
       //     inspect(e);
       //   }
       // }
-      // var ndef = NdefFormatable.from(tag);
-      // if (ndef != null) {
-      //   try {
-      //     ndef.format();
-      //   } catch (e) {
-      //     inspect(e);
-      //   }
-      // }
+      var ndef = NdefFormatable.from(tag);
+      if (ndef != null) {
+        try {
+          ndef.format();
+        } catch (e) {
+          inspect(e);
+        }
+      }
       NfcManager.instance.stopSession();
     });
   }
