@@ -105,9 +105,12 @@ class NfcManagerPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
         return
       }
       adapter.enableReaderMode(activity, {
-        val handle = UUID.randomUUID().toString()
+        val handle = it.id.toString()
+        val alreadyExist = tags.containsKey(handle)
         tags[handle] = it
-        activity.runOnUiThread { channel.invokeMethod("onDiscovered", getTagMap(it).toMutableMap().apply { put("handle", handle) }) }
+        if(!alreadyExist){
+          activity.runOnUiThread { channel.invokeMethod("onDiscovered", getTagMap(it).toMutableMap().apply { put("handle", handle) }) }
+        }
       }, getFlags(call.argument<List<String>>("pollingOptions")!!), null)
       result.success(null)
     }

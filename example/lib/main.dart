@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -79,6 +78,30 @@ class MyAppState extends State<MyApp> {
     NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
       result.value = tag.data;
 
+      MifareClassic? mifareClassic = MifareClassic.from(tag);
+      Uint8List keyA = Uint8List.fromList([0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
+
+      if (mifareClassic != null) {
+        int sector = 0;
+        bool autorized = await mifareClassic.authenticateSectorWithKeyA(
+          sectorIndex: sector,
+          key: keyA,
+        );
+        if (autorized) {
+          for (int i = (sector * 4); i < ((sector + 1) * 4); i++) {
+            try {
+              var bloc = await mifareClassic.readBlock(blockIndex: i);
+              print('$i = $bloc');
+              if (autorized) {}
+            } catch (e) {
+              print('$i = $e');
+            }
+          }
+        } else {
+          print('Section $sector NOT AUTHORIZED');
+        }
+      }
+
       // var ndef = Ndef.from(tag);
       // if (ndef != null) {
       //   try {
@@ -87,14 +110,14 @@ class MyAppState extends State<MyApp> {
       //     inspect(e);
       //   }
       // }
-      var ndef = NdefFormatable.from(tag);
-      if (ndef != null) {
-        try {
-          ndef.format();
-        } catch (e) {
-          inspect(e);
-        }
-      }
+      // var ndef = NdefFormatable.from(tag);
+      // if (ndef != null) {
+      //   try {
+      //     ndef.format();
+      //   } catch (e) {
+      //     inspect(e);
+      //   }
+      // }
       NfcManager.instance.stopSession();
     });
   }
