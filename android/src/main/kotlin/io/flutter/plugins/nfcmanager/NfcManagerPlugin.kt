@@ -324,12 +324,14 @@ class NfcManagerPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       return
     }
 
-    try {
-      forceConnect(tech)
-      callback(tech)
-    } catch (e: Exception) {
-      result.error("io_exception", e.localizedMessage, null)
-    }
+    Thread{
+      try {
+        forceConnect(tech)
+        callback(tech)
+      } catch (e: Exception) {
+        result.error("io_exception", e.localizedMessage, null)
+      }
+    }.start()
   }
 
   @Throws(IOException::class)
